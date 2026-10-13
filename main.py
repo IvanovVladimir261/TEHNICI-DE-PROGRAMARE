@@ -1,27 +1,42 @@
-import argparse
+from checker import build_url, is_https, show_response, check_site, \
+    scan_sites, check_headers, retry_check
 
-import webtools
-from webtools import get_title, security_headers, DEFAULT_HEADERS
+#1
+print("build_url fără slash:", build_url("example.com", "login"))
+print("build_url cu slash:", build_url("example.com", "/login"))
+print("is_https cu https:", is_https("https://example.com"))
+print("is_https cu http:", is_https("http://example.com"))
 
-parser = argparse.ArgumentParser()
-parser.add_argument("url")
-args = parser.parse_args()
-url = args.url
+#2
+print("show_response example.com:")
+show_response("https://example.com")
+print("show_response httpbin.org/json:")
+show_response("https://httpbin.org/json")
 
-print(webtools.get_title(webtools.fetch(url).text))
+#3
+print("check_site site care merge:",
+      check_site("https://example.com"))
+print("check_site site inexistent:",
+      check_site("http://this-site-does-not-exist.invalid"))
 
-print(get_title(webtools.fetch(url).text))
-print(security_headers(url))
+#4
+print("scan_sites:")
+scan_sites()
 
-print(DEFAULT_HEADERS)
+#5
+print("check_headers example.com:",
+      check_headers("https://example.com"))
+print("check_headers httpbin.org/html:",
+      check_headers("https://httpbin.org/html"))
 
-rows = webtools.check_paths(url, ["/", "/robots.txt", "/sitemap.xml"])
-webtools.save_csv(rows)
-
-webtools.site_report(url)
-
-# import webtools face funcțiile din webtools.py disponibile prin prefix (webtools.fetch, webtools.get_title); fișierul trebuie să fie în același folder cu main.py.
-# Dacă main.py ar avea și o funcție proprie get_title, ar rămâne valabil numele definit ultimul: cea proprie ar înlocui funcția importată (sau invers, dacă importul vine după definiție), iar funcțiile din webtools.py nu ar fi afectate.
-# argparse citește URL-ul din linia de comandă (python main.py https://cybercor.org), iar args.url înlocuiește BASE_URL în apelurile funcțiilor.
-# check_paths returnează o listă de dicționare cu path, status și checked_at (ora din datetime.now().isoformat()), iar save_csv le scrie cu csv.DictWriter în report.csv.
-# site_report apelează funcțiile din webtools pentru a colecta informațiile despre site, le afișează ca raport și salvează tot dicționarul în report.json.
+#6
+print("retry_check 200:",
+      retry_check("https://httpbin.org/status/200"))
+print("retry_check 404:",
+      retry_check("https://httpbin.org/status/404"))
+print("retry_check 500:",
+      retry_check("https://httpbin.org/status/500"))
+print("retry_check 500, attempts=2:",
+      retry_check("https://httpbin.org/status/500", attempts=2))
+print("retry_check site inexistent:",
+      retry_check("http://this-site-does-not-exist.invalid"))

@@ -58,7 +58,7 @@ def main():
     mari = peste_prag(tinte, a.prag)
     print(f"Peste {a.prag}: {mari}")
 
-    with open("raport_inventar.json", "w") as f:
+    with open("raport_inventar.json", "w", encoding="utf-8") as f:
         json.dump({"servicii": grupe, "peste_prag": mari}, f, indent=2)
     print("Raport salvat in raport_inventar.json")
 

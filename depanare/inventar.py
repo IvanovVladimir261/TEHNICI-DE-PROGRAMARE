@@ -15,7 +15,7 @@ def port_valid(text):
     """Intoarce portul ca int, sau None daca nu e un numar."""
     try:
         return int(text)
-    except ValueError:
+    except (ValueError, TypeError):
         return None
 
 
@@ -45,11 +45,11 @@ def peste_prag(tinte, prag):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("fisier")
-    p.add_argument("--prag", default=1024)
+    p.add_argument("--prag", type=int, default=1024)
     a = p.parse_args()
 
     tinte = incarca(a.fisier)
-    print(f"Tinte citite:  + {len(tinte)}")
+    print(f"Tinte citite: {len(tinte)}")
 
     grupe = pe_servicii(tinte)
     for serviciu, porturi in grupe.items():

@@ -26,8 +26,7 @@ def pe_servicii(tinte):
         serviciu = t.get("serviciu", "necunoscut")
         port = port_valid(t["port"])
         if port is None:
-            print("sar peste", t["gazda"], ": port invalid", t["port"])
-            continue
+           continue
         grupe.setdefault(serviciu, []).append(port)
     return grupe
 
@@ -35,10 +34,12 @@ def peste_prag(tinte, prag):
     """Lista gazdelor cu un port mai mare decat pragul."""
     rezultat = []
     for t in tinte:
-        port = int(t["port"])
+        port = port_valid(t["port"])
+        if port is None:
+            continue
         if port > prag:
             rezultat.append(t["gazda"])
-        return rezultat
+    return rezultat
 
 
 def main():

@@ -26,6 +26,7 @@ def pe_servicii(tinte):
         serviciu = t.get("serviciu", "necunoscut")
         port = port_valid(t["port"])
         if port is None:
+           print("sar peste", t["gazda"], ": port invalid", t["port"])
            continue
         grupe.setdefault(serviciu, []).append(port)
     return grupe
@@ -36,7 +37,6 @@ def peste_prag(tinte, prag):
     for t in tinte:
         port = port_valid(t["port"])
         if port is None:
-            print("sar peste", t["gazda"], ": port invalid", t["port"])
             continue
         if port > prag:
             rezultat.append(t["gazda"])

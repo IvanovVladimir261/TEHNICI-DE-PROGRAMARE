@@ -7,7 +7,7 @@ import json
 
 def incarca(cale):
     """Citeste lista de tinte din fisierul JSON."""
-    with open(cale) as f:
+    with open(cale, encoding="utf-8") as f:
         return json.load(f)
 
 
